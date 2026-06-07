@@ -1,0 +1,47 @@
+# === DJANGO ===
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# === ENTORNO VIRTUAL (VENV) ===
+venv/
+.venv/
+env/
+.env/
+ENV/
+bin/
+lib/
+include/
+pip-delete-this-directory.txt
+
+# === PYTHON ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# === CONFIGURACIONES SECRETAS Y ENVIROMENT ===
+.env
+.ini
+
+# === SISTEMA OPERATIVO / IDEs ===
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Registrarse - QRLogin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="premium-card p-5">
+            <h2 class="text-center mb-4 fw-bold">Crear Cuenta</h2>
+            <p class="text-center text-muted mb-4">Regístrate para recibir tu código QR de acceso seguro.</p>
+            
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-premium w-100 mt-4">Registrarme Ahora</button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <small class="text-muted">¿Ya tienes cuenta? <a href="{% url 'login' %}" class="text-decoration-none" style="color: var(--primary-color);">Inicia sesión</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

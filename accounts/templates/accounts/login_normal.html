@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Login Tradicional - QRLogin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-5">
+        <div class="premium-card p-5">
+            <h2 class="text-center mb-4 fw-bold text-white">Login Normal</h2>
+            <p class="text-center text-muted-50 mb-4 small">Ingresa con tu usuario y contraseña.</p>
+            
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-premium w-100 mt-4 py-3 rounded-pill fw-bold">Entrar al Portal</button>
+            </form>
+
+            <div class="mt-4 pt-2 text-center d-flex flex-column gap-3">
+                <div>
+                    <a href="{% url 'password_reset' %}" class="text-decoration-none small fw-semibold" style="color: var(--primary-color, #818cf8);">
+                        ¿Olvidaste tu contraseña? Recuperar aquí
+                    </a>
+                </div>
+                
+                <div class="border-top border-secondary pt-3 mt-2">
+                    <a href="{% url 'login' %}" class="text-decoration-none text-white-50 small hover-white d-inline-flex align-items-center justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left me-2" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                        </svg> 
+                        Volver a opciones de login
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+
+{% block title %}Iniciar Sesión - QRLogin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .qr-scanner-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 16px;
+        background: #000;
+        aspect-ratio: 1/1;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    #reader {
+        width: 100% !important;
+        border: none !important;
+    }
+    #reader__scan_region {
+        background: transparent !important;
+    }
+    .scan-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 2px solid var(--primary-color);
+        pointer-events: none;
+        z-index: 10;
+        box-shadow: inset 0 0 100px rgba(99, 102, 241, 0.2);
+    }
+    .scanner-line {
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: var(--primary-color);
+        top: 0;
+        animation: scan 2s linear infinite;
+        z-index: 11;
+    }
+    @keyframes scan {
+        0% { top: 0; }
+        100% { top: 100%; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <!-- QR Scan Option -->
+    <div class="col-md-6 mb-4">
+        <div class="premium-card p-5 text-center h-100">
+            <h3 class="fw-bold mb-4">Acceso con QR</h3>
+            <p class="text-muted mb-4">Muestra el código QR enviado a tu correo frente a la cámara.</p>
+            
+            <div id="scanner-wrapper" style="display: none;">
+                <div class="qr-scanner-container mb-4">
+                    <div id="reader"></div>
+                    <div class="scan-overlay"></div>
+                    <div class="scanner-line"></div>
+                </div>
+                <button id="stop-scan" class="btn btn-outline-danger rounded-pill px-4">Cancelar Escaneo</button>
+            </div>
+
+            <div id="intro-wrapper">
+                <div class="mb-4 bg-primary bg-opacity-10 p-5 rounded-circle d-inline-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-qr-code-scan text-primary" viewBox="0 0 16 16">
+                        <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5zM3 4.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2zm1 1v1h1v-1H4z"/>
+                        <path d="M3 9.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2zm1 1v1h1v-1H4zM8.5 4a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-2zm1 1h1v1h-1V5zM6.5 7a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1zM9.5 8a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1zM8 9.5a.5.5 0 0 1 .5-.5h.75a.5.5 0 0 1 0 1H8.5v.75a.5.5 0 0 1-1 0v-1.25zM11 9.5a.5.5 0 0 1 .5-.5h.75a.5.5 0 0 1 .5.5v.75a.5.5 0 0 1-1 0V10h-.75a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </div>
+                <button id="start-scan" class="btn btn-premium w-100 py-3 mb-3">Activar Cámara</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Normal Login Option -->
+    <div class="col-md-5 mb-4">
+        <div class="premium-card p-5 text-center h-100 d-flex flex-column justify-content-center">
+            <h3 class="fw-bold mb-4">Acceso Normal</h3>
+            <p class="text-muted mb-5">Si prefieres usar tu contraseña tradicional, entra aquí.</p>
+            
+            <a href="{% url 'login_normal' %}" class="btn btn-outline-light btn-lg w-100 rounded-pill py-3">
+                Entrar con Usuario/Contraseña
+            </a>
+            
+            <div class="mt-5 pt-3">
+                <small class="text-muted">¿Eres nuevo? <a href="{% url 'register' %}" class="text-decoration-none" style="color: var(--primary-color);">Regístrate aquí</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-11 text-center">
+        <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+            <span class="text-muted small">¿Tu código QR ha caducado o ya lo utilizaste?</span>
+            <a href="#" class="text-decoration-none ms-2 fw-bold" style="color: var(--primary-color);" data-bs-toggle="modal" data-bs-target="#requestQRModal">
+                Solicitar un nuevo QR de acceso
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="requestQRModal" tabindex="-1" aria-labelledby="requestQRModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title fw-bold" id="requestQRModalLabel">Solicitar Nuevo Código QR</h5>
+                <button type="white" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'request_qr_from_login' %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p class="text-muted small">Introduce tu nombre de usuario o el correo electrónico con el que te registraste. Te enviaremos un pase QR dinámico válido por 10 minutos.</p>
+                    <div class="mb-3">
+                        <label for="identifier" class="form-label small text-uppercase tracking-wider text-muted">Usuario o Correo Electrónico</label>
+                        <input type="text" name="identifier" id="identifier" class="form-control bg-opacity-10 bg-white border-secondary text-white py-2" placeholder="Ej: carlos o carlos@email.com" required>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-outline-light rounded-pill px-3" data-bs-modal="dismiss" data-bs-skip="true" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">Enviar QR al correo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+    const startBtn = document.getElementById('start-scan');
+    const stopBtn = document.getElementById('stop-scan');
+    const scannerWrapper = document.getElementById('scanner-wrapper');
+    const introWrapper = document.getElementById('intro-wrapper');
+    
+    let html5QrCode;
+
+    startBtn.addEventListener('click', () => {
+        introWrapper.style.display = 'none';
+        scannerWrapper.style.display = 'block';
+        
+        html5QrCode = new Html5Qrcode("reader");
+        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+        html5QrCode.start(
+            { facingMode: "user" }, 
+            config,
+            onScanSuccess,
+            onScanFailure
+        ).catch(err => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de cámara',
+                text: 'No se pudo acceder a la cámara. Verifica los permisos.',
+                background: '#1e293b',
+                color: '#fff'
+            });
+            stopScanner();
+        });
+    });
+
+    stopBtn.addEventListener('click', stopScanner);
+
+    function stopScanner() {
+        if (html5QrCode) {
+            html5QrCode.stop().then(() => {
+                scannerWrapper.style.display = 'none';
+                introWrapper.style.display = 'block';
+            }).catch(err => console.log(err));
+        }
+    }
+
+    function captureAndLogIntruder() {
+        const video = document.querySelector('#reader video');
+        if (video) {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            const imageData = canvas.toDataURL('image/jpeg');
+
+            fetch("{% url 'log_intruder' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ image: imageData })
+            });
+        }
+    }
+
+    function onScanSuccess(decodedText, decodedResult) {
+        console.log(`Scan Result: ${decodedText}`);
+        
+        // Show loading
+        Swal.fire({
+            title: 'Validando Token...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        fetch("{% url 'qr_scan_api' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ token: decodedText })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                stopScanner();
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Acceso Concedido!',
+                    text: 'Redirigiendo al dashboard...',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "{% url 'dashboard' %}";
+                });
+            } else {
+                // CAPTURA AL INTRUSO ANTES DE CERRAR
+                captureAndLogIntruder();
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡ALERTA DE SEGURIDAD!',
+                    text: 'Token inválido. Tu intento ha sido registrado.',
+                    background: '#991b1b',
+                    color: '#fff'
+                });
+            }
+        })
+        .catch(err => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema de conexión.',
+                background: '#1e293b',
+                color: '#fff'
+            });
+        });
+    }
+
+    function onScanFailure(error) {
+        // Just silent failure for each frame
+    }
+</script>
+{% endblock %}
