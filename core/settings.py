@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-rdo=2_a0+m4^7ek_w8dk8ysgs-b6(hcs@^jo4ahm+!)*uur(p$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['missalatlogs.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
